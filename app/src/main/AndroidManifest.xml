@@ -25,7 +25,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.liuh.kotlinmvp.MainActivity">
+        <activity android:name="com.liuh.kotlinmvp.ui.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,7 +33,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.activity.SplashActivity" />
+        <activity android:name=".ui.activity.MainActivity" />
     </application>
 
 </manifest>
