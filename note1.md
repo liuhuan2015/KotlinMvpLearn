@@ -1,4 +1,4 @@
->Kotlin学习笔记<br>
+>Kotlin学习笔记-------基础语法<br>
 
 ### 1 . 空安全
 #### 1.1 安全调用操作符：?.,表示变量可为空
@@ -87,5 +87,173 @@ val aInt: Int? = a as? Int
 val nullableList: List<Int?> = listOf(1, 2, null, 4)
 val intList: List<Int> = nullableList.filterNotNull()
 ```
+### 2 . var 和 val 的区别
+var,可变变量
+```java
+var x = 5 // 自动推断出 `Int` 类型
+x += 1
+```
+val，一次赋值（只读）的变量
+```java
+val a: Int = 1  // 立即赋值
+val b = 2   // 自动推断出 `Int` 类型
+val c: Int  // 如果没有初始值类型不能省略
+```
+### 3 . 使用可空值及null检测
+当某个变量的值可以为 null 的时候，必须在声明处的类型后添加 ? 来标识该引用可为空。详见1.空安全<br>
+
+### 4 . 使用类型检测及自动类型转换
+is 运算符检测一个表达式是否某类型的一个实例。 如果一个不可变的局部变量或属性已经判断出为某类型，那么检测后的分支中可以直接当作该类型使用，无需显式转换：
+```java
+fun getStringLength(obj: Any): Int? {
+    if (obj is String) {
+        // `obj` 在该条件分支内自动转换成 `String`
+        return obj.length
+    }
+
+    // 在离开类型检测分支后，`obj` 仍然是 `Any` 类型
+    return null
+}
+```
+或者<br>
+```java
+fun getStringLength(obj: Any): Int? {
+    // `obj` 在 `&&` 右边自动转换成 `String` 类型
+    if (obj is String && obj.length > 0) {
+        return obj.length
+    }
+
+    return null
+}
+```
+### 5 . 使用for循环
+```java
+val items = listOf("apple", "banana", "kiwifruit")
+for (item in items) {
+    println(item)
+}
+```
+或者下面这种，可以拿到索引值的
+```java
+val items = listOf("apple", "banana", "kiwifruit")
+for (index in items.indices) {
+    println("item at $index is ${items[index]}")
+}
+```
+### 6 . 使用while循环
+```java
+val items = listOf("apple", "banana", "kiwifruit")
+var index = 0
+while (index < items.size) {
+    println("item at $index is ${items[index]}")
+    index++
+}
+```
+### 7 . 使用when表达式
+```java
+fun describe(obj: Any): String =
+when (obj) {
+    1          -> "One"
+    "Hello"    -> "Greeting"
+    is Long    -> "Long"
+    !is String -> "Not a string"
+    else       -> "Unknown"
+}
+```
+### 8 . 使用区间（range）
+使用 in 运算符来检测某个数字是否在指定区间内：
+```java
+val x = 10
+val y = 9
+if (x in 1..y+1) {
+    println("fits in range")
+}
+```
+同理，也可以检测是否在区间外。<br>
+
+区间迭代：
+```java
+for (x in 1..5) {
+    print(x)
+}
+```
+数列迭代：
+```java
+for (x in 1..10 step 2) {
+    print(x)
+}
+println()
+for (x in 9 downTo 0 step 3) {
+    print(x)
+}
+```
+### 9 . 使用集合
+对集合进行迭代：
+```java
+for (item in items) {
+    println(item)
+}
+```
+使用 in 运算符来判断集合内是否包含某实例:
+```java
+ val items = setOf("apple", "banana", "kiwifruit")
+    when {
+        "orange" in items -> println("juicy")
+        "apple" in items -> println("apple is fine too")
+    }
+```
+使用lambda表达式来过滤（filter）与映射（map）集合：
+```java
+fun main(args: Array<String>) {
+  val fruits = listOf("banana", "avocado", "apple", "kiwifruit")
+  fruits
+      .filter { it.startsWith("a") }
+      .sortedBy { it }
+      .map { it.toUpperCase() }
+      .forEach { println(it) }
+}
+```
+结果：
+```java
+APPLE
+AVOCADO
+```
+### 10 . 创建基本类及其实例
+```java
+val rectangle = Rectangle(5.0, 2.0) // 不需要“new”关键字
+val triangle = Triangle(3.0, 4.0, 5.0)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
