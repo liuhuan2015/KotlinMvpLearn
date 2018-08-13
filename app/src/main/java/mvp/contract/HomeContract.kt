@@ -1,6 +1,7 @@
 package mvp.contract
 
 import com.liuh.kotlinmvp.base.IBaseView
+import mvp.model.bean.HomeBean
 
 /**
  * Created by huan on 2018/8/12.
