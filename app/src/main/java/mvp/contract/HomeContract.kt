@@ -1,6 +1,7 @@
 package mvp.contract
 
 import com.liuh.kotlinmvp.base.IBaseView
+import com.liuh.kotlinmvp.base.IPresenter
 import mvp.model.bean.HomeBean
 
 /**
@@ -26,6 +27,19 @@ interface HomeContract {
          */
         fun showError(msg: String, errorCode: Int)
 
+    }
+
+    interface Presenter : IPresenter<View> {
+
+        /**
+         * 获取首页精选数据
+         */
+        fun requestHomeData(num: Int)
+
+        /**
+         * 加载更多数据
+         */
+        fun loadMoreData()
     }
 
 }

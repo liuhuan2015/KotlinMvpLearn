@@ -37,6 +37,9 @@ dependencies {
     //rx库
     implementation rootProject.ext.rxJavaLibs
 
+    //retrofit相关库
+    implementation rootProject.ext.networkLibs
+
     //LeakCanary
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.1'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
