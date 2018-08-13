@@ -6,6 +6,6 @@ package com.liuh.kotlinmvp.rx.scheduler
  */
 object SchedulerUtils {
     fun <T> ioToMain(): IoMainScheduler<T> {
-        return ToMainScheduler()
+        return IoMainScheduler()
     }
 }

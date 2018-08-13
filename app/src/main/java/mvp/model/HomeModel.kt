@@ -11,8 +11,20 @@ import mvp.model.bean.HomeBean
  */
 class HomeModel {
 
+    /**
+     * 获取首页Banner数据
+     */
     fun requestHomeData(num: Int): Observable<HomeBean> {
-        RetrofitManager.service.getFirstHomeData(num)
+        return RetrofitManager.service.getFirstHomeData(num)
+                .compose(SchedulerUtils.ioToMain())
+    }
+
+    /**
+     * 加载更多
+     */
+    fun loadMoreData(url: String): Observable<HomeBean> {
+
+        return RetrofitManager.service.getMoreHomeData(url)
                 .compose(SchedulerUtils.ioToMain())
     }
 
