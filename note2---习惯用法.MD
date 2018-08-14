@@ -64,9 +64,11 @@ println(map["key"])
 map["key"] = value
 ```
 ### 11 . 延迟属性
+```java
 val p: String by lazy {
     // 计算该字符串
 }
+```
 ### 12 . 扩展函数
 ```java
 fun String.spaceToCamelCase() { …… }
@@ -102,11 +104,13 @@ val emails = ... // 可能会是空集合
 val mainEmail = emails.firstOrNull() ?: ""
 ```
 ### 18 . if not null 执行代码，?.配合let使用
+```java
 val value = ……
 
 value?.let {
     …… // 代码会执行到此处, 假如data不为null
 }
+```
 ### 19 . 映射可空值（如果非空的话）
 ```java
 val value = ……
