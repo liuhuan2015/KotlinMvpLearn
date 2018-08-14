@@ -8,7 +8,7 @@ import java.io.Serializable
 
 data class HomeBean(val issueList: List<Issue>, val newestIssueType: String, val nextPageUrl: String, val nextPublishTime: Long) {
 
-    data class Issue(val count: Int, val date: Long, val itemList: List<Item>, val publishTime: Long, val releaseTime: Long, val type: String) {
+    data class Issue(var count: Int, val date: Long, val itemList: ArrayList<Item>, val publishTime: Long, val releaseTime: Long, val type: String) {
 
         data class Item(val adIndex: Int, val data: Data, val id: Int, val type: String) : Serializable {
 

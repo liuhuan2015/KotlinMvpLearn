@@ -6,7 +6,7 @@ package com.liuh.kotlinmvp.base
  */
 interface IPresenter<in V : IBaseView> {
 
-    fun attach(mRootView: V)
+    fun attachView(mRootView: V)
 
     fun detachView()
 

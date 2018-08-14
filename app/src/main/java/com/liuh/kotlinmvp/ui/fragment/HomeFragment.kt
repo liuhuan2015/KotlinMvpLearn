@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager
 import com.liuh.kotlinmvp.R
 import com.liuh.kotlinmvp.base.BaseFragment
 import com.scwang.smartrefresh.header.MaterialHeader
+import kotlinx.android.synthetic.main.fragment_home.*
 import mvp.contract.HomeContract
 import mvp.model.bean.HomeBean
 import mvp.presenter.HomePresenter
@@ -23,7 +24,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
 
     private var num: Int = 1
 
-    private var mHomeAdapter: HomeAdapter? = null
+//    private var mHomeAdapter: HomeAdapter? = null
 
     private var loadingMore = false
 
@@ -54,6 +55,9 @@ class HomeFragment : BaseFragment(), HomeContract.View {
     }
 
     override fun initView() {
+        mPresenter.attachView(this)
+
+        mRefreshLayout.setEnableHeaderTranslationContent(true)
 
 
     }
