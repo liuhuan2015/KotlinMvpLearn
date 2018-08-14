@@ -173,7 +173,125 @@ fun foo() { // 这里省略了“: Unit”
 ```java
 println("$name has ${children.size} children")
 ```
-### 12 . 语言特性的惯用法
+### 12 . 语言特性的习惯用法
+#### 12.1 不可变性
+优先使用不可变（而不是可变）数据。初始化后未修改的局部变量与属性，总是将其声明为 val 而不是 var。<br>
+
+总是使用不可变集合接口（Collection, List, Set, Map）来声明无需改变的集合。使用工厂函数创建集合实例时，尽可能选用返回不可变集合类型的函数：<br>
+```java
+// 不良：使用可变集合类型作为无需改变的值
+fun validateValue(actualValue: String, allowedValues: HashSet<String>) { …… }
+
+// 良好：使用不可变集合类型
+fun validateValue(actualValue: String, allowedValues: Set<String>) { …… }
+
+// 不良：arrayListOf() 返回 ArrayList<T>，这是一个可变集合类型
+val allowedValues = arrayListOf("a", "b", "c")
+
+// 良好：listOf() 返回 List<T>
+val allowedValues = listOf("a", "b", "c")
+```
+#### 12.2 默认参数值
+优先声明带有默认参数的函数而不是声明重载函数
+```java
+// 不良
+fun foo() = foo("a")
+fun foo(a: String) { …… }
+
+// 良好
+fun foo(a: String = "a") { …… }
+```
+#### 12.3 类型别名
+如果有一个在代码库中多次用到的函数类型或者带有类型参数的函数类型，那么最好为它定义一个类型别名：
+```java
+typealias MouseClickHandler = (Any, MouseEvent) -> Unit
+typealias PersonIndex = Map<String, Person>
+```
+#### 12.4 Lambda表达式参数
+在简短、非嵌套的 lambda 表达式中建议使用 it 用法而不是显式声明参数。而在有参数的嵌套 lambda 表达式中，始终应该显式声明参数。
+
+#### 12.5 在 lambda 表达式中返回
+避免在 lambda 表达式中使用多个返回的标签。请考虑重新组织这样的 lambda 表达式使其只有单一退出点。 如果这无法做到或者不够清晰，<br>
+请考虑将 lambda 表达式转换为匿名函数。<br>
+
+不要在 lambda 表达式的最后一条语句中使用返回的标签。
+#### 12.6 命名参数
+当一个方法接受多个相同的原生类型参数或者多个 Boolean 类型参数时，请使用命名参数语法， 除非在上下文中的所有参数的含义都已绝对清楚。
+```java
+drawSquare(x = 10, y = 10, width = 100, height = 100, fill = true)
+```
+#### 12.7 使用条件语句
+优先使用 try 、 if 与 when 的表达形式。例如：
+```java
+return if (x) foo() else bar()
+
+return when(x) {
+    0 -> "zero"
+    else -> "nonzero"
+}
+```
+优先使用上述代码而不是：
+```java
+if (x)
+    return foo()
+else
+    return bar()
+    
+when(x) {
+    0 -> return "zero"
+    else -> return "nonzero"
+}
+```
+#### 12.8 if 还是 when
+二元条件优先使用 if 而不是 when。不要使用
+```java
+when (x) {
+    null -> ……
+    else -> ……
+}
+```
+而应使用 if (x == null) …… else ……<br>
+
+如果有三个或多个选项时优先使用when。
+#### 12.9 在条件中使用可空的 Boolean 值
+如果需要在条件语句中用到可空的 Boolean, 使用 if (value == true) 或 if (value == false) 检测。
+#### 12.10 使用循环
+优先使用高阶函数（filter、map 等）而不是循环。例外：forEach（优先使用常规的 for 循环， 除非 forEach 的接收者是可空的或者 forEach 用做长调用链的一部分。）<br>
+
+当在使用多个高阶函数的复杂表达式与循环之间进行选择时，请了解每种情况下所执行操作的开销并且记得考虑性能因素。
+#### 12.11 区间上循环
+使用 until 函数在一个区间上循环
+```java
+for (i in 0..n - 1) { …… }  // 不良
+for (i in 0 until n) { …… }  // 良好
+```
+#### 12.12 使用字符串
+优先使用字符串模板而不是字符串拼接<br>
+
+优先使用多行字符串而不是将 \n 转义序列嵌入到常规字符串字面值中。<br>
+
+如需在多行字符串中维护缩进，当生成的字符串不需要任何内部缩进时使用 trimIndent，而需要内部缩进时使用 trimMargin：
+```java
+assertEquals(
+    """
+    Foo
+    Bar
+    """.trimIndent(), 
+    value
+)
+
+val a = """if(a > 1) {
+          |    return a
+          |}""".trimMargin()
+```
+#### 12.13 使用作用域函数 apply/with/run/also/let
+Kotlin 提供了一系列用来在给定对象上下文中执行代码块的函数。要选择正确的函数。这块不抄了，有点不太理解。
+### 库的编码规范
+在编写库时，建议遵循一组额外的规则以确保 API 的稳定性：
+* 总是显式指定成员的可见性（以避免将声明意外暴露为公有 API ）
+* 总是显式指定函数返回类型以及属性类型（以避免当实现改变时意外更改返回类型）
+* 为所有公有成员提供 KDoc 注释，不需要任何新文档的覆盖成员除外 （以支持为该库生成文档）
+
 
 
 
