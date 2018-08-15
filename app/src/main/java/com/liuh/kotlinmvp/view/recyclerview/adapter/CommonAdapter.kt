@@ -12,7 +12,7 @@ import com.liuh.kotlinmvp.view.recyclerview.MyViewHolder
  * Description: 通用的Adapter
  */
 abstract class CommonAdapter<T>(var mContext: Context, var mData: ArrayList<T>,//条目布局
-                                private var mLayoutId: Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+                                private var mLayoutId: Int) : RecyclerView.Adapter<MyViewHolder>() {
     protected var mInflater: LayoutInflater? = null
     private var mTypeSupport: MultipleType<T>? = null
 
@@ -31,7 +31,7 @@ abstract class CommonAdapter<T>(var mContext: Context, var mData: ArrayList<T>,/
         this.mTypeSupport = typeSupport
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         if (mTypeSupport != null) {
             //需要多布局
             mLayoutId = viewType
@@ -42,12 +42,26 @@ abstract class CommonAdapter<T>(var mContext: Context, var mData: ArrayList<T>,/
     }
 
     override fun getItemViewType(position: Int): Int {
-        return super.getItemViewType(position)
+        //多布局问题
+        return mTypeSupport?.getLayoutId(mData[position], position)
+                ?: super.getItemViewType(position)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        //绑定数据
+        bindData(holder, mData[position], position)
+        //条目点击事件
+        if (mItemClickListener != null) {
+            holder.itemView.setOnClickListener { mItemClickListener!!.onItemClick(mData[position], position) }
+        }
 
+        //长按点击事件
+        if (mItemLongClickListener != null) {
+            holder.itemView.setOnLongClickListener { mItemLongClickListener!!.onItemLongClickListener(mData[position], position) }
+        }
     }
+
+    protected abstract fun bindData(holder: MyViewHolder, data: T, position: Int)
 
     fun setOnItemClickListener(itemClickListener: MyOnItemClickListener) {
         this.mItemClickListener = itemClickListener
