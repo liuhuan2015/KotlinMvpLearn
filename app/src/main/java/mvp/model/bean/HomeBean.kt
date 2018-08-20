@@ -13,6 +13,7 @@ data class HomeBean(val issueList: List<Issue>, val newestIssueType: String, val
         data class Item(val adIndex: Int, val data: Data, val id: Int, val type: String) : Serializable {
 
             data class Data(
+                    val text: String,
                     val author: Author,
                     val category: String,
                     val collected: Boolean,

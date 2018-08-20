@@ -54,7 +54,7 @@ abstract class BaseActivity : AppCompatActivity() {
      * 初始化监听器
      */
     private fun initListener() {
-        mLayoutStatusView?.setOnRetryClickListener(mRetryClickListener)
+        mLayoutStatusView?.setOnClickListener(mRetryClickListener)
     }
 
     open val mRetryClickListener: View.OnClickListener = View.OnClickListener {

@@ -2,11 +2,16 @@ package com.liuh.kotlinmvp.ui.fragment
 
 import android.os.Bundle
 import android.support.v4.content.res.ResourcesCompat.getColor
+import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import com.liuh.kotlinmvp.R
 import com.liuh.kotlinmvp.base.BaseFragment
+import com.liuh.kotlinmvp.http.exception.ErrorStatus
+import com.liuh.kotlinmvp.showToast
 import com.liuh.kotlinmvp.ui.adapter.HomeAdapter
+import com.liuh.kotlinmvp.utils.StatusBarUtil
+import com.orhanobut.logger.Logger
 import com.scwang.smartrefresh.header.MaterialHeader
 import kotlinx.android.synthetic.main.fragment_home.*
 import mvp.contract.HomeContract
@@ -19,6 +24,7 @@ import java.util.*
  * Date: 2018/8/10 10:45
  * Description:首页精选
  */
+
 class HomeFragment : BaseFragment(), HomeContract.View {
 
     private val mPresenter by lazy { HomePresenter() }
@@ -98,45 +104,90 @@ class HomeFragment : BaseFragment(), HomeContract.View {
                     iv_search.setImageResource(R.mipmap.ic_action_search_white)
                     tv_header_title.text = ""
                 } else {
-//                    if (mHomeAdapter) {
-//                    }
-
+                    if (mHomeAdapter?.mData!!.size > 1) {
+                        toolbar.setBackgroundColor(getColor(R.color.color_title_bg))
+                        iv_search.setImageResource(R.mipmap.ic_action_search_black)
+                        val itemList = mHomeAdapter!!.mData
+                        val item = itemList[currentFirstVisibleItemPosition + mHomeAdapter!!.bannerItemSize - 1]
+                        if (item.type == "textHeader") {
+                            tv_header_title.text = item.data?.text
+                        } else {
+                            tv_header_title.text = simpleDateFormat.format(item.data?.date)
+                        }
+                    }
                 }
-
 
             }
 
         })
 
+//        iv_search.setOnClickListener(openSearchActivity())
+
+        mLayoutStatusView = multipleStatusView
+
+        //状态栏透明和间距处理
+        StatusBarUtil.darkMode(activity)
+        StatusBarUtil.setPaddingSmart(activity, toolbar)
     }
 
     override fun lazyLoad() {
-
+        mPresenter.requestHomeData(num)
     }
 
-
+    /**
+     *  显示 Loading （下拉刷新的时候不需要显示 Loading）
+     */
     override fun showLoading() {
-
+        if (!isRefresh) {
+            isRefresh = false
+            mLayoutStatusView?.showLoading()
+        }
     }
 
+    /**
+     * 隐藏 Loading
+     */
     override fun dismissLoading() {
-
+        mRefreshLayout.finishRefresh()
+        mLayoutStatusView?.showContent()
     }
 
+    /**
+     * 设置首页数据
+     */
     override fun setHomeData(homeBean: HomeBean) {
+        Logger.d(homeBean)
 
+        //adapter
+        mHomeAdapter = HomeAdapter(activity, homeBean.issueList[0].itemList)
+
+        mHomeAdapter?.setBannerSize(homeBean.issueList[0].count)
+
+        mRecyclerView.adapter = mHomeAdapter
+        mRecyclerView.layoutManager = linearLayoutManager
+        mRecyclerView.itemAnimator = DefaultItemAnimator()
     }
 
     override fun setMoreData(itemList: ArrayList<HomeBean.Issue.Item>) {
-
+        loadingMore = false
+        mHomeAdapter?.addItemData(itemList)
     }
 
+    /**
+     * 显示错误信息
+     */
     override fun showError(msg: String, errorCode: Int) {
-
+        showToast(msg)
+        if (errorCode == ErrorStatus.NETWORK_ERROR) {
+            mLayoutStatusView?.showNoNetwork()
+        } else {
+            mLayoutStatusView?.showError()
+        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        mPresenter.detachView()
     }
 
     fun getColor(colorId: Int): Int {
