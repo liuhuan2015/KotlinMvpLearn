@@ -1,5 +1,6 @@
 package com.liuh.kotlinmvp.base
 
+import android.content.Context
 import android.os.Bundle
 import android.support.annotation.LayoutRes
 import android.support.v4.app.Fragment
@@ -82,7 +83,7 @@ abstract class BaseFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        MyApplication.getRefWatcher(activity)?.watch(activity)
+        MyApplication.getRefWatcher(activity as Context)?.watch(activity)
     }
 
 }

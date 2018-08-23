@@ -93,9 +93,9 @@ class HomeAdapter(context: Context, data: ArrayList<HomeBean.Issue.Item>)
                 }
 
                 //没有使用到的参数在Kotlin中用 "_"代替
-                holder.getView<BGABanner>(R.id.banner).setDelegate {
-
-                }
+//                holder.getView<BGABanner>(R.id.banner).setDelegate {
+//
+//                }
             }
         }
     }

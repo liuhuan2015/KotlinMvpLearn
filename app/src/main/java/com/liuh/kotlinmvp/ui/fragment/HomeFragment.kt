@@ -1,5 +1,7 @@
 package com.liuh.kotlinmvp.ui.fragment
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.content.res.ResourcesCompat.getColor
 import android.support.v7.widget.DefaultItemAnimator
@@ -126,8 +128,8 @@ class HomeFragment : BaseFragment(), HomeContract.View {
         mLayoutStatusView = multipleStatusView
 
         //状态栏透明和间距处理
-        StatusBarUtil.darkMode(activity)
-        StatusBarUtil.setPaddingSmart(activity, toolbar)
+        StatusBarUtil.darkMode(activity as Activity)
+        StatusBarUtil.setPaddingSmart(activity as Activity, toolbar)
     }
 
     override fun lazyLoad() {
@@ -159,7 +161,7 @@ class HomeFragment : BaseFragment(), HomeContract.View {
         Logger.d(homeBean)
 
         //adapter
-        mHomeAdapter = HomeAdapter(activity, homeBean.issueList[0].itemList)
+        mHomeAdapter = HomeAdapter(activity as Context, homeBean.issueList[0].itemList)
 
         mHomeAdapter?.setBannerSize(homeBean.issueList[0].count)
 
