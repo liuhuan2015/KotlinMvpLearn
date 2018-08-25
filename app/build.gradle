@@ -45,6 +45,9 @@ dependencies {
     //retrofit相关库
     implementation rootProject.ext.networkLibs
 
+    //APT dependencies(Kotlin内置的注解处理器，我觉得好像是glide的注解处理器)
+    kapt rootProject.ext.annotationProcessorLibs
+
     //LeakCanary
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.1'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
@@ -70,4 +73,10 @@ dependencies {
 
     //模糊透明 View
     implementation 'com.github.mmin18:realtimeblurview:1.1.0'
+
+    //GlideOkhttp
+    implementation(rootProject.ext.glideOkhttp) {
+        exclude group: 'glide-parent'
+    }
+
 }

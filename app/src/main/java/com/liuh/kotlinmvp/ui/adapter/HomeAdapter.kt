@@ -84,8 +84,9 @@ class HomeAdapter(context: Context, data: ArrayList<HomeBean.Issue.Item>)
                         setAutoPlayAble(bannerFeedList.size > 1)
                         setData(bannerFeedList, bannerTitleList)
                         setAdapter(object : BGABanner.Adapter<ImageView, String> {
-                            override fun fillBannerItem(p0: BGABanner?, p1: ImageView?, p2: String?, p3: Int) {
-
+                            override fun fillBannerItem(bgaBanner: BGABanner?, imageView: ImageView?, feedImageUrl: String?, position: Int) {
+//                                GlideApp.with(mContext)
+//                                        .load(feed)
 
                             }
                         })
