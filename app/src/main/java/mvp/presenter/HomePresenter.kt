@@ -41,6 +41,9 @@ class HomePresenter : BasePresenter<HomeContract.View>(), HomeContract.Presenter
                     }.forEach { item ->
                         bannerItemList.remove(item)
                     }
+
+                    bannerHomeBean = homeBean //记录第一页是当作 banner 数据
+
                     homeModel.loadMoreData(homeBean.nextPageUrl)
 
                 }
@@ -80,8 +83,6 @@ class HomePresenter : BasePresenter<HomeContract.View>(), HomeContract.Presenter
     }
 
     override fun loadMoreData() {
-
-
 
 
     }

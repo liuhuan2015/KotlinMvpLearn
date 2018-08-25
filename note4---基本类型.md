@@ -115,6 +115,125 @@ Kotlin支持数字运算的标准集，运算被定义为相应的类成员（�
 * inv() – 位非
 
 #### 1.6 浮点数比较
+* 相等性检测：a == b 与 a != b
+* 比较操作符：a < b、 a > b、 a <= b、 a >= b
+* 区间实例以及区间检测：a..b、 x in a..b、 x !in a..b
+
+#### 1.7 字符
+字符用 Char 表示。它们不能直接当作数字
+```java
+fun check(c: Char) {
+    if (c == 1) { // 错误：类型不兼容
+        // ……
+    }
+}
+```
+字符字面值用单引号括起来: '1'。 特殊字符可以用反斜杠转义。 支持这几个转义序列：\t、 \b、\n、\r、\'、\"、\\ 与 \$。 编码其他字符要用 Unicode 转义序列语法：'\uFF00'。<br>
+
+可以显式把字符转换成 Int 数字。
+```java
+fun decimalDigitValue(c: Char): Int {
+    if (c !in '0'..'9')
+    throw IllegalArgumentException("Out of range")
+    return c.toInt() - '0'.toInt() // 显式转换为数字
+}
+```
+当需要可空引用时，像数字一样，字符会被装箱。装箱操作不会保留同一性。
+
+#### 1.8 数组
+数组在Kotlin中使用Array类表示，它定义了 get 与 set 函数（按照运算符重载约定这会转变为 []）以及 size 属性，以及一些其他有用的成员函数：
+```java
+class Array<T> private constructor() {
+    val size: Int
+    operator fun get(index: Int): T
+    operator fun set(index: Int, value: T): Unit
+
+    operator fun iterator(): Iterator<T>
+    // ……
+}
+```
+可以使用库函数 arrayOf() 来创建一个数组并传递元素值给它，这样 arrayOf(1, 2, 3) 创建了 array [1, 2, 3]。<br>
+或者，库函数 arrayOfNulls() 可以用于创建一个指定大小的、所有元素都为空的数组。<br>
+
+另一个选项是用接受数组大小以及一个函数参数的 Array 构造函数，用作参数的函数能够返回给定索引的每个元素初始值：
+```java
+// 创建一个 Array<String> 初始化为 ["0", "1", "4", "9", "16"]
+val asc = Array(5, { i -> (i * i).toString() })
+asc.forEach { println(it) }
+```
+**注意**：与 Java 不同的是，Kotlin 中数组是不型变的（invariant）。这意味着 Kotlin 不让我们把 Array<String> 赋值给 Array<Any>，以防止可能的运行时失败（但是你可以使用 Array<out Any>。<br>
+
+Kotlin也有无装箱开销的专门的类来表示原生类型数组: ByteArray、 ShortArray、IntArray 等等。这些类与 Array 并没有继承关系，但是它们有同样的方法属性集。它们也都有相应的工厂方法:
+```java
+val x: IntArray = intArrayOf(1, 2, 3)
+x[0] = x[1] + x[2]
+```
+#### 1.9 字符串
+字符串用 String 类型表示。字符串是不可变的。 字符串的元素——字符可以使用索引运算符访问: s[i]。 可以用 for 循环迭代字符串:
+```java
+fun main(args: Array<String>) {
+val str = "abcd"
+    for (c in str) {
+        println(c)
+    }
+}
+```
+可以用 + 操作符连接字符串。这也适用于连接字符串与其他类型的值， 只要表达式中的第一个元素是字符串：
+```java
+fun main(args: Array<String>) {
+    val s = "abc" + 1
+    println(s + "def")
+}
+```
+**注意**：在大多数情况下，优先使用字符串模板或原始字符串而不是字符串连接
+#### 1.10 字符串字面值
+Kotlin 有两种类型的字符串字面值: **转义字符串**可以有转义字符，以及**原始字符串**可以包含换行以及任意文本。转义字符串很像 Java 字符串:
+```java
+val s = "Hello, world!\n"
+```
+转义采用传统的反斜杠方式。<br>
+
+原始字符串 使用三个引号（"""）分界符括起来，内部没有转义并且可以包含换行以及任何其他字符:
+```java
+val text = """
+    for (c in "foo")
+        print(c)
+"""
+```
+可以通过trimMargin()函数去除前导空格：
+```java
+val text = """
+    |Tell me and I forget.
+    |Teach me and I remember.
+    |Involve me and I learn.
+    |(Benjamin Franklin)
+    """.trimMargin()
+```
+默认 | 用作边界前缀，也可以选择其他字符并作为参数传入，比如 trimMargin(">")。
+#### 1.11 字符串模板
+字符串可以包含模板表达式 ，即一些小段代码，会求值并把结果合并到字符串中。 模板表达式以美元符（$）开头，由一个简单的名字构成:
+```java
+val i = 10
+println("i = $i") // 输出“i = 10”
+```
+或者用花括号括起来的任意表达式：
+```java
+val s = "abc"
+println("$s.length is ${s.length}") // 输出“abc.length is 3”
+```
+原始字符串与转移字符串内部都支持模板。如果需要在原始字符串中表示字面值 $ 字符（它不支持反斜杠转义），可以用下列语法：
+```java
+val price = """
+${'$'}9.99
+"""
+```
+
+
+
+
+
+
+
 
 
 
