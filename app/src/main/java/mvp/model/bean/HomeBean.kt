@@ -23,7 +23,7 @@ data class HomeBean(val issueList: List<Issue>, val newestIssueType: String, val
                     val date: Long,
                     val description: String,
                     val descriptionEditor: String,
-                    val duration: Int,
+                    val duration: Long,
                     val id: Int,
                     val idx: Int,
                     val ifLimitVideo: Boolean,

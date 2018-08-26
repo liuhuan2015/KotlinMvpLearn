@@ -82,8 +82,38 @@ class HomePresenter : BasePresenter<HomeContract.View>(), HomeContract.Presenter
         addSubscription(disposable)
     }
 
+    /**
+     * 加载更多
+     */
     override fun loadMoreData() {
+        val disposable = nextPageUrl?.let {
+            homeModel.loadMoreData(it)
+                    .subscribe({ homeBean ->
+                        mRootView?.apply {
+                            //过滤掉 Banner2（包含广告等不需要的 Type），具体看接口分析
+                            val newItemList = homeBean.issueList[0].itemList
 
+                            newItemList.filter { item ->
+                                item.type == "banner2" || item.type == "horizontalScrollCard"
+                            }.forEach { item ->
+                                //移除 item
+                                newItemList.remove(item)
+                            }
+
+                            nextPageUrl = homeBean.nextPageUrl
+                            setMoreData(newItemList)
+                        }
+
+                    }, { t ->
+                        mRootView?.apply {
+                            showError(ExceptionHandler.handleException(t), ExceptionHandler.errorCode)
+                        }
+                    })
+
+        }
+        if (disposable != null) {
+            addSubscription(disposable)
+        }
 
     }
 

@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'  //kapt3插件
+
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     defaultConfig {
@@ -78,5 +80,9 @@ dependencies {
     implementation(rootProject.ext.glideOkhttp) {
         exclude group: 'glide-parent'
     }
+
+    // 视屏播放器
+    implementation 'com.shuyu:GSYVideoPlayer:2.1.1'
+
 
 }

@@ -36,7 +36,7 @@ class CustomAppGlideModule : AppGlideModule() {
      * 为App注册一个自定义的String类型的BaseGlideUrlLoader
      */
     override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
-//        registry!!.append(String::class.java, InputStream::class.java, CustomBaseGlideUrlLoader.Factory())
+        registry.append(String::class.java, InputStream::class.java, CustomBaseGlideUrlLoader.Factory())
     }
 
 }
