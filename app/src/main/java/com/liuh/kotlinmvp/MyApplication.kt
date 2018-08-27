@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.os.Bundle
+import android.support.multidex.MultiDex
 import com.liuh.kotlinmvp.utils.DisplayManager
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
@@ -45,6 +46,12 @@ class MyApplication : Application() {
 
         //注册Activity生命周期回调
         registerActivityLifecycleCallbacks(mActivityLifecycleCallbacks)
+    }
+
+
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(base)
+        MultiDex.install(this)
     }
 
     /**

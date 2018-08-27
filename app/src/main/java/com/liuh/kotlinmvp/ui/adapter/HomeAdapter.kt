@@ -11,6 +11,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.liuh.kotlinmvp.R
 import com.liuh.kotlinmvp.durationFormat
 import com.liuh.kotlinmvp.glide.GlideApp
+import com.liuh.kotlinmvp.ui.activity.VideoDetailActivity
 import com.liuh.kotlinmvp.view.recyclerview.MyViewHolder
 import com.liuh.kotlinmvp.view.recyclerview.adapter.CommonAdapter
 import io.reactivex.Observable

@@ -20,12 +20,19 @@ android {
         renderscriptTargetApi 19
         renderscriptSupportModeEnabled true    // Enable RS support
 
+        //解决65535问题
+        multiDexEnabled true
+
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    dexOptions {
+        jumboMode true
     }
 }
 
@@ -83,6 +90,8 @@ dependencies {
 
     // 视屏播放器
     implementation 'com.shuyu:GSYVideoPlayer:2.1.1'
+
+    implementation 'com.android.support:multidex:1.0.3'
 
 
 }
