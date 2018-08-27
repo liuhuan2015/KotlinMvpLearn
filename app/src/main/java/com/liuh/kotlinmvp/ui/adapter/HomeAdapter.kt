@@ -1,13 +1,17 @@
 package com.liuh.kotlinmvp.ui.adapter
 
 import android.app.Activity
+import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
+import android.support.v4.app.ActivityCompat
+import android.support.v4.app.ActivityOptionsCompat
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import cn.bingoogolapple.bgabanner.BGABanner
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.liuh.kotlinmvp.Constants
 import com.liuh.kotlinmvp.R
 import com.liuh.kotlinmvp.durationFormat
 import com.liuh.kotlinmvp.glide.GlideApp
@@ -16,6 +20,7 @@ import com.liuh.kotlinmvp.view.recyclerview.MyViewHolder
 import com.liuh.kotlinmvp.view.recyclerview.adapter.CommonAdapter
 import io.reactivex.Observable
 import mvp.model.bean.HomeBean
+import android.support.v4.util.Pair
 
 /**
  * Date: 2018/8/14 16:05
@@ -206,8 +211,19 @@ class HomeAdapter(context: Context, data: ArrayList<HomeBean.Issue.Item>)
     /**
      * 跳转到视频详情页面播放
      */
-    private fun goToVideoPlayer(activity: Activity, view: View?, itemData: HomeBean.Issue.Item) {
+    private fun goToVideoPlayer(activity: Activity, view: View, itemData: HomeBean.Issue.Item) {
         val intent = Intent(activity, VideoDetailActivity::class.java)
+        intent.putExtra(Constants.BUNDLE_VIDEO_DATA, itemData)
+        intent.putExtra(VideoDetailActivity.TRANSITION, true)
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            val pair = Pair<View, String>(view, VideoDetailActivity.IMG_TRANSITION)
+            val activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, pair)
+
+            ActivityCompat.startActivity(activity, intent, activityOptions.toBundle())
+        } else {
+            activity.startActivity(intent)
+            activity.overridePendingTransition(R.anim.anim_in, R.anim.anim_out)
+        }
 
 
     }
