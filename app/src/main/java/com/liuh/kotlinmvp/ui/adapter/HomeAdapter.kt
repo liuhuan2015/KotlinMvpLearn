@@ -225,8 +225,6 @@ class HomeAdapter(context: Context, data: ArrayList<HomeBean.Issue.Item>)
             activity.overridePendingTransition(R.anim.anim_in, R.anim.anim_out)
         }
 
-
     }
-
 
 }
