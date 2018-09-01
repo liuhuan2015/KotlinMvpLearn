@@ -30,7 +30,7 @@ interface VideoDetailContract {
         /**
          * 设置最新相关视频
          */
-        fun setRecentRelativedVideo(itemList: ArrayList<HomeBean.Issue.Item>)
+        fun setRecentRelatedVideo(itemList: ArrayList<HomeBean.Issue.Item>)
 
         /**
          * 设置错误信息

@@ -63,6 +63,10 @@ abstract class CommonAdapter<T>(var mContext: Context, var mData: ArrayList<T>,/
 
     protected abstract fun bindData(holder: MyViewHolder, data: T, position: Int)
 
+    override fun getItemCount(): Int {
+        return mData.size
+    }
+
     fun setOnItemClickListener(itemClickListener: MyOnItemClickListener) {
         this.mItemClickListener = itemClickListener
     }

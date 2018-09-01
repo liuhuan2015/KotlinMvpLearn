@@ -24,7 +24,7 @@ data class HomeBean(val issueList: List<Issue>, val newestIssueType: String, val
                     val description: String,
                     val descriptionEditor: String,
                     val duration: Long,
-                    val id: Int,
+                    val id: Long,
                     val idx: Int,
                     val ifLimitVideo: Boolean,
                     val labelList: List<Any>,
@@ -65,7 +65,7 @@ data class HomeBean(val issueList: List<Issue>, val newestIssueType: String, val
 
                 data class PlayInfo(val height: Int, val name: String, val type: String, val url: String, val urlList: List<Url>, val width: Int) : Serializable {
 
-                    data class Url(val name: String, val size: Int, val url: String) : Serializable
+                    data class Url(val name: String, val size: Long, val url: String) : Serializable
                 }
 
                 data class Cover(val blurred: String, val detail: String, val feed: String, val homepage: String) : Serializable
